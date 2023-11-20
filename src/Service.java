@@ -10,7 +10,7 @@ public class Service {
         return profile;
     }
 
-    public static Service combiningServices(Service s1, Service s2) {
+    public static Service combiningServices(Service s1, Service s2, boolean withSolution) {
         TreeMap<Integer, Double> resultMap = new TreeMap<>();
         int newKey = 0;
         double newProbability = 0.0;
@@ -19,6 +19,10 @@ public class Service {
             for (Map.Entry<Integer, Double> entry2 : s2.getProfile().entrySet()) {
                 newKey = entry1.getKey() + entry2.getKey();
                 newProbability = entry1.getValue() * entry2.getValue();
+                if (withSolution) {
+                    //U(K=17) = 0.73 * 0.04 = 0,0292
+                    System.out.println("U(K=" + newKey + ") = " + entry1.getValue() + " * " + entry2.getValue() + " = " + newProbability);
+                }
                 if (!resultMap.containsKey(newKey)) {
                     resultMap.put(newKey, newProbability);
                 }

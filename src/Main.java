@@ -20,7 +20,7 @@ public class Main {
         Service service2 = new Service(mapOnService2);
         Service service3 = new Service(mapOnService3);
         
-        Service resultService = Service.combiningServices(Service.combiningServices(service1, service2), service3);
+        Service resultService = Service.combiningServices(Service.combiningServices(service1, service2, false), service3, false);
 
         System.out.println("\nИтоговый сервис:");
         resultService.print();
