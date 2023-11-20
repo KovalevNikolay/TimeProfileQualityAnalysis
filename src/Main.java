@@ -20,32 +20,12 @@ public class Main {
         Service service2 = new Service(mapOnService2);
         Service service3 = new Service(mapOnService3);
         
-        Service resultService = combiningServices(combiningServices(service1, service2), service3);
+        Service resultService = Service.combiningServices(Service.combiningServices(service1, service2), service3);
 
         System.out.println("\nИтоговый сервис:");
         resultService.print();
         System.out.println("Математическое ожидание: " + resultService.calculateTheMathematicalExpectation());
         System.out.println("Дисперсия: " + resultService.calculateVariance());
         System.out.println("Риск срыва временного регламента при С="+value +": " + resultService.calculateRSVR(value));
-    }
-    public static Service combiningServices(Service s1, Service s2) {
-        TreeMap<Integer, Double> resultMap = new TreeMap<>();
-        int newKey = 0;
-        double newProbability = 0.0;
-        double oldProbability = 0.0;
-        for (Map.Entry<Integer, Double> entry1 : s1.getProfile().entrySet()) {
-            for (Map.Entry<Integer, Double> entry2 : s2.getProfile().entrySet()) {
-                newKey = entry1.getKey() + entry2.getKey();
-                newProbability = entry1.getValue() * entry2.getValue();
-                if (!resultMap.containsKey(newKey)) {
-                    resultMap.put(newKey, newProbability);
-                }
-                else {
-                    oldProbability = resultMap.get(newKey);
-                    resultMap.put(newKey, oldProbability + newProbability);
-                }
-            }
-        }
-        return new Service(resultMap);
     }
 }

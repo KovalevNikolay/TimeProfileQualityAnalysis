@@ -9,6 +9,27 @@ public class Service {
     public TreeMap<Integer, Double> getProfile() {
         return profile;
     }
+
+    public static Service combiningServices(Service s1, Service s2) {
+        TreeMap<Integer, Double> resultMap = new TreeMap<>();
+        int newKey = 0;
+        double newProbability = 0.0;
+        double oldProbability = 0.0;
+        for (Map.Entry<Integer, Double> entry1 : s1.getProfile().entrySet()) {
+            for (Map.Entry<Integer, Double> entry2 : s2.getProfile().entrySet()) {
+                newKey = entry1.getKey() + entry2.getKey();
+                newProbability = entry1.getValue() * entry2.getValue();
+                if (!resultMap.containsKey(newKey)) {
+                    resultMap.put(newKey, newProbability);
+                }
+                else {
+                    oldProbability = resultMap.get(newKey);
+                    resultMap.put(newKey, oldProbability + newProbability);
+                }
+            }
+        }
+        return new Service(resultMap);
+    }
     public double calculateTheMathematicalExpectation() {
         double mathematicalExpectation = 0.0;
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
