@@ -43,8 +43,9 @@ public class Service {
     }
     public double calculateVariance() {
         double variance = 0;
+        double mathematicalExpectation = this.calculateTheMathematicalExpectation();
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
-            variance += Math.pow((entry.getKey() - this.calculateTheMathematicalExpectation()),2) * entry.getValue();
+            variance += Math.pow((entry.getKey() - mathematicalExpectation),2) * entry.getValue();
         }
         return variance;
     }
