@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -32,6 +34,44 @@ public class Service {
                 }
             }
         }
+        return new Service(resultMap);
+    }
+    public Service combineServicesByFunctionAnd (Service s1, Service s2, Service s3) {
+        TreeMap<Integer, Double> resultMap = new TreeMap<>();
+        int[] minTimeArray = new int[] {s1.profile.firstKey(), s2.profile.firstKey(), s3.profile.firstKey()};
+        int[] maxTimeArray = new int[] {s1.profile.lastKey(), s2.profile.lastKey(), s3.profile.lastKey()};
+        int maxFromMinArray = maxElement(minTimeArray);
+        int maxFromMaxArray = maxElement(maxTimeArray);
+        double probability = 0.0;
+        while(maxFromMinArray <= maxFromMaxArray) {
+
+            // TODO: 24.11.2023 Изменить сигнатуру метода на Service[] serviceArray
+
+            maxFromMaxArray++;
+        }
+        return new Service(resultMap);
+    }
+
+    public int minElement(int[] array) {
+        int min = array[0];
+        for (int i = 0; i<array.length; i++) {
+            if(array[i] < min)
+                min = array[i];
+        }
+        return min;
+    }
+    public int maxElement(int[] array) {
+        int max = array[0];
+        for (int i = 0; i<array.length; i++) {
+            if(array[i] > max)
+                max = array[i];
+        }
+        return max;
+    }
+    public Service combineServicesByFunctionOr (Service[] serviceArray) {
+        TreeMap<Integer, Double> resultMap = new TreeMap<>();
+        // TODO: 24.11.2023  
+
         return new Service(resultMap);
     }
     public double calculateTheMathematicalExpectation() {
