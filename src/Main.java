@@ -21,7 +21,13 @@ public class Main {
         //solutionLabThree(new Service[] {serviceOne, serviceTwo, serviceThree});
         solutionLabFour(new Service[] {serviceOne, serviceTwo, serviceThree});
     }
-
+    public static void printResult(Service service, int valueC) {
+        service.print();
+        System.out.println("Плотность распределения вероятностей равна: " + service.calculateProbabilityDensity());
+        System.out.println("Математическое ожидание: " + service.calculateTheMathematicalExpectation());
+        System.out.println("Дисперсия: " + service.calculateVariance());
+        System.out.println("Риск срыва временного регламента при С = "+valueC +": " + service.calculateRSVR(valueC));
+    }
     public static void solutionLabThree(Service[] serviceArray) {
         int value = 13;
 
@@ -30,16 +36,18 @@ public class Main {
         Service resultService = Service.combiningServices(serviceOneAndTwo, serviceArray[2], false);
 
         System.out.println("\nИтоговый сервис:");
-        resultService.print();
-        System.out.println("Математическое ожидание: " + resultService.calculateTheMathematicalExpectation());
-        System.out.println("Дисперсия: " + resultService.calculateVariance());
-        System.out.println("Риск срыва временного регламента при С="+value +": " + resultService.calculateRSVR(value));
+        printResult(resultService, value);
     }
     public static void solutionLabFour(Service[] serviceArray) {
-        Service result = Service.combineServicesByFunctionAnd(serviceArray);
-        result.print();
+        int valueForAND = 5, valueForOr = 4;
+
+        System.out.println("Исследование по булевой функции AND:");
+        Service resultService = Service.combineServicesByFunctionAnd(serviceArray);
+        printResult(resultService, valueForAND);
+
         System.out.println();
-        Service result2 = Service.combineServicesByFunctionOr(serviceArray);
-        result2.print();
+        System.out.println("Исследование по булевой функции OR:");
+        Service resultServiceTwo = Service.combineServicesByFunctionOr(serviceArray);
+        printResult(resultServiceTwo, valueForOr);
     }
 }
