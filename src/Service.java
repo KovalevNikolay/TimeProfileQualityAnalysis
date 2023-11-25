@@ -68,9 +68,39 @@ public class Service {
         }
         return new Service(resultMap);
     }
-    public Service combineServicesByFunctionOr (Service[] serviceArray) {
+    public static Service combineServicesByFunctionOr (Service[] serviceArray) {
         TreeMap<Integer, Double> resultMap = new TreeMap<>();
-        // TODO: 24.11.2023  
+        ArrayList<Integer> minElements = new ArrayList<>();
+        ArrayList<Integer> maxElements = new ArrayList<>();
+        for (Service s : serviceArray) {
+            minElements.add(s.profile.firstKey());
+            maxElements.add(s.profile.lastKey());
+        }
+
+        int minFromMinArray = Collections.min(minElements);
+        int minFromMaxArray = Collections.min(maxElements);
+        while(minFromMinArray <= minFromMaxArray) {
+
+            double probability = 0.0;
+            double multiplyingprobabilityToN = 1.0;
+            double multiplyingprobabilityToNsubtractOne = 1.0;
+
+            for (Service s : serviceArray) {
+                double differenceProbabilityToN = 1;
+                double differenceProbabilityToNsubtractOne = 1;
+                for (Map.Entry<Integer, Double> entry : s.getProfile().entrySet()) {
+                    if (entry.getKey() <= minFromMinArray)
+                        differenceProbabilityToN-=entry.getValue();
+                    if (entry.getKey() <= minFromMinArray - 1)
+                        differenceProbabilityToNsubtractOne-=entry.getValue();
+                }
+                multiplyingprobabilityToN *= differenceProbabilityToN;
+                multiplyingprobabilityToNsubtractOne *= differenceProbabilityToNsubtractOne;
+            }
+            probability = multiplyingprobabilityToNsubtractOne - multiplyingprobabilityToN;
+            resultMap.put(minFromMinArray, probability);
+            minFromMinArray++;
+        }
 
         return new Service(resultMap);
     }

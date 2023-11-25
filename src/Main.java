@@ -38,5 +38,8 @@ public class Main {
     public static void solutionLabFour(Service[] serviceArray) {
         Service result = Service.combineServicesByFunctionAnd(serviceArray);
         result.print();
+        System.out.println();
+        Service result2 = Service.combineServicesByFunctionOr(serviceArray);
+        result2.print();
     }
 }
