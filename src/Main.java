@@ -1,32 +1,33 @@
-import java.util.Map;
 import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) {
-
-    }
-
-    public static void solutionLab3() {
         TreeMap<Integer, Double> mapOnServiceOne = new TreeMap<>();
-        mapOnServiceOne.put(8, 0.87);
-        mapOnServiceOne.put(9, 0.12);
-        mapOnServiceOne.put(3, 0.01);
+        mapOnServiceOne.put(6, 0.73);
+        mapOnServiceOne.put(5, 0.02);
+        mapOnServiceOne.put(2, 0.25);
         TreeMap<Integer, Double> mapOnServiceTwo = new TreeMap<>();
-        mapOnServiceTwo.put(6, 0.15);
-        mapOnServiceTwo.put(5, 0.81);
-        mapOnServiceTwo.put(3, 0.04);
+        mapOnServiceTwo.put(8, 0.15);
+        mapOnServiceTwo.put(5, 0.4);
+        mapOnServiceTwo.put(3, 0.45);
         TreeMap<Integer, Double> mapOnServiceThree = new TreeMap<>();
-        mapOnServiceThree.put(4, 0.03);
-        mapOnServiceThree.put(1, 0.97);
-        int value = 13;
-
+        mapOnServiceThree.put(6, 0.37);
+        mapOnServiceThree.put(7, 0.25);
+        mapOnServiceThree.put(3, 0.38);
         Service serviceOne = new Service(mapOnServiceOne);
         Service serviceTwo = new Service(mapOnServiceTwo);
         Service serviceThree = new Service(mapOnServiceThree);
 
-        Service serviceOneAndTwo = Service.combiningServices(serviceOne, serviceTwo, false);
+        //solutionLabThree(new Service[] {serviceOne, serviceTwo, serviceThree});
+        solutionLabFour(new Service[] {serviceOne, serviceTwo, serviceThree});
+    }
+
+    public static void solutionLabThree(Service[] serviceArray) {
+        int value = 13;
+
+        Service serviceOneAndTwo = Service.combiningServices(serviceArray[0], serviceArray[1], false);
         System.out.println();
-        Service resultService = Service.combiningServices(serviceOneAndTwo, serviceThree, false);
+        Service resultService = Service.combiningServices(serviceOneAndTwo, serviceArray[2], false);
 
         System.out.println("\nИтоговый сервис:");
         resultService.print();
@@ -34,7 +35,8 @@ public class Main {
         System.out.println("Дисперсия: " + resultService.calculateVariance());
         System.out.println("Риск срыва временного регламента при С="+value +": " + resultService.calculateRSVR(value));
     }
-    public static void solutionLab4() {
-
+    public static void solutionLabFour(Service[] serviceArray) {
+        Service result = Service.combineServicesByFunctionAnd(serviceArray);
+        result.print();
     }
 }

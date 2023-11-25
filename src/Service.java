@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Service {
     final private TreeMap<Integer, Double> profile;
@@ -36,37 +33,40 @@ public class Service {
         }
         return new Service(resultMap);
     }
-    public Service combineServicesByFunctionAnd (Service s1, Service s2, Service s3) {
+    public static Service combineServicesByFunctionAnd (Service[] serviceArray) {
         TreeMap<Integer, Double> resultMap = new TreeMap<>();
-        int[] minTimeArray = new int[] {s1.profile.firstKey(), s2.profile.firstKey(), s3.profile.firstKey()};
-        int[] maxTimeArray = new int[] {s1.profile.lastKey(), s2.profile.lastKey(), s3.profile.lastKey()};
-        int maxFromMinArray = maxElement(minTimeArray);
-        int maxFromMaxArray = maxElement(maxTimeArray);
-        double probability = 0.0;
+        ArrayList<Integer> minElements = new ArrayList<>();
+        ArrayList<Integer> maxElements = new ArrayList<>();
+        for (Service s : serviceArray) {
+            minElements.add(s.profile.firstKey());
+            maxElements.add(s.profile.lastKey());
+        }
+
+        int maxFromMinArray = Collections.max(minElements);
+        int maxFromMaxArray = Collections.max(maxElements);
         while(maxFromMinArray <= maxFromMaxArray) {
 
-            // TODO: 24.11.2023 Изменить сигнатуру метода на Service[] serviceArray
+            double probability = 0.0;
+            double multiplyingprobabilityToN = 1.0;
+            double multiplyingprobabilityToNsubtractOne = 1.0;
 
-            maxFromMaxArray++;
+            for (Service s : serviceArray) {
+                double sumProbabilityToN = 0;
+                double sumProbabilityToNsubtractOne = 0;
+                for (Map.Entry<Integer, Double> entry : s.getProfile().entrySet()) {
+                    if (entry.getKey() <= maxFromMinArray)
+                        sumProbabilityToN+=entry.getValue();
+                    if (entry.getKey() <= maxFromMinArray - 1)
+                        sumProbabilityToNsubtractOne+=entry.getValue();
+                }
+                multiplyingprobabilityToN*=sumProbabilityToN;
+                multiplyingprobabilityToNsubtractOne*=sumProbabilityToNsubtractOne;
+            }
+            probability = multiplyingprobabilityToN - multiplyingprobabilityToNsubtractOne;
+            resultMap.put(maxFromMinArray, probability);
+            maxFromMinArray++;
         }
         return new Service(resultMap);
-    }
-
-    public int minElement(int[] array) {
-        int min = array[0];
-        for (int i = 0; i<array.length; i++) {
-            if(array[i] < min)
-                min = array[i];
-        }
-        return min;
-    }
-    public int maxElement(int[] array) {
-        int max = array[0];
-        for (int i = 0; i<array.length; i++) {
-            if(array[i] > max)
-                max = array[i];
-        }
-        return max;
     }
     public Service combineServicesByFunctionOr (Service[] serviceArray) {
         TreeMap<Integer, Double> resultMap = new TreeMap<>();
@@ -111,7 +111,7 @@ public class Service {
     public void print() {
         System.out.printf("%-5s \t|\t %-15s \n", "Время", "Вероятность");
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
-            System.out.printf("%-5d \t|\t %,.4f\n", entry.getKey(), entry.getValue());
+            System.out.printf("%-5d \t|\t %,.5f\n", entry.getKey(), entry.getValue());
         }
         System.out.println();
     }
