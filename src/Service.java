@@ -165,31 +165,49 @@ public class Service {
 
         return new Service(resultMap);
     }
-    public double calculateTheMathematicalExpectation() {
+    public double calculateTheMathematicalExpectation(boolean solution) {
         double mathematicalExpectation = 0.0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Математическое ожидание = ");
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
+            sb.append(entry.getKey()).append(" * ").append(entry.getValue()).append(" + ");
             mathematicalExpectation += entry.getKey() * entry.getValue();
         }
+        sb.deleteCharAt(sb.length()-2);
+        sb.append("= ").append(mathematicalExpectation);
+        if (solution) System.out.println(sb.toString());
         return mathematicalExpectation;
     }
-    public double calculateVariance() {
+    public double calculateVariance(boolean solution) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Дисперсия =");
         double variance = 0;
-        double mathematicalExpectation = this.calculateTheMathematicalExpectation();
+        double mathematicalExpectation = this.calculateTheMathematicalExpectation(false);
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
+            sb.append(" (").append(entry.getKey()).append(" - ").append(mathematicalExpectation).append(")^2 * ").append(entry.getValue()).append(" +");
             variance += Math.pow((entry.getKey() - mathematicalExpectation),2) * entry.getValue();
         }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(" = ").append(variance);
+        if (solution) System.out.println(sb.toString());
         return variance;
     }
-    public double calculateRSVR(int c) {
+    public double calculateRSVR(int c, boolean solution) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Риск срыва временного регламента при С = ").append(c).append(" : 1 - (");
         double rsvr = 0.0;
         for (Map.Entry<Integer, Double> entry : this.profile.entrySet()) {
             if (entry.getKey() <= c) {
+                sb.append(entry.getValue()).append("+");
                 rsvr+= entry.getValue();
             }
             else {
                 break;
             }
         }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(") = ").append(1-rsvr);
+        if (solution) System.out.println(sb.toString());
         return 1 - rsvr;
     }
     public double calculateProbabilityDensity() {
