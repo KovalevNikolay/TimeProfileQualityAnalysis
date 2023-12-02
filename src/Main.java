@@ -3,22 +3,23 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String[] args) {
         TreeMap<Integer, Double> mapOnServiceOne = new TreeMap<>();
-        mapOnServiceOne.put(2, 0.28);
-        mapOnServiceOne.put(1, 0.24);
-        mapOnServiceOne.put(3, 0.48);
+        mapOnServiceOne.put(6, 0.73);
+        mapOnServiceOne.put(5, 0.02);
+        mapOnServiceOne.put(2, 0.25);
         TreeMap<Integer, Double> mapOnServiceTwo = new TreeMap<>();
-        mapOnServiceTwo.put(2, 0.06);
-        mapOnServiceTwo.put(8, 0.56);
-        mapOnServiceTwo.put(10, 0.38);
+        mapOnServiceTwo.put(8, 0.15);
+        mapOnServiceTwo.put(5, 0.4);
+        mapOnServiceTwo.put(3, 0.45);
         TreeMap<Integer, Double> mapOnServiceThree = new TreeMap<>();
-        mapOnServiceThree.put(6, 0.03);
-        mapOnServiceThree.put(4, 0.97);
+        mapOnServiceThree.put(6, 0.37);
+        mapOnServiceThree.put(7, 0.25);
+        mapOnServiceThree.put(3, 0.38);
         Service serviceOne = new Service(mapOnServiceOne);
         Service serviceTwo = new Service(mapOnServiceTwo);
         Service serviceThree = new Service(mapOnServiceThree);
 
-        solutionLabThree(new Service[] {serviceOne, serviceTwo, serviceThree});
-        //solutionLabFour(new Service[] {serviceOne, serviceTwo, serviceThree});
+        //solutionLabThree(new Service[] {serviceOne, serviceTwo, serviceThree});
+        solutionLabFour(new Service[] {serviceOne, serviceTwo, serviceThree});
     }
     public static void printResult(Service service, int valueC) {
         service.print();
@@ -33,7 +34,7 @@ public class Main {
         Service resultService = serviceArray[0];
 
         for (int i = 1; i < serviceArray.length; i++) {
-            resultService = Service.combiningServices(resultService, serviceArray[i], true);
+            resultService = Service.combiningServices(resultService, serviceArray[i]);
         }
 
         System.out.println("\nИтоговый сервис:");
