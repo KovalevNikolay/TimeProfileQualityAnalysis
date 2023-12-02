@@ -33,7 +33,7 @@ public class Main {
         Service resultService = serviceArray[0];
 
         for (int i = 1; i < serviceArray.length; i++) {
-            resultService = Service.combiningServices(resultService, serviceArray[i], false);
+            resultService = Service.combiningServices(resultService, serviceArray[i], true);
         }
 
         System.out.println("\nИтоговый сервис:");

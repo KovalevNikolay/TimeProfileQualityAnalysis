@@ -12,15 +12,17 @@ public class Service {
     public static Service combiningServices(Service s1, Service s2, boolean withSolution) {
         TreeMap<Integer, Double> resultMap = new TreeMap<>();
         int newKey = 0;
+        StringBuilder sb;
         double newProbability = 0.0;
         double oldProbability = 0.0;
         for (Map.Entry<Integer, Double> entry1 : s1.getProfile().entrySet()) {
             for (Map.Entry<Integer, Double> entry2 : s2.getProfile().entrySet()) {
+                sb = new StringBuilder();
                 newKey = entry1.getKey() + entry2.getKey();
                 newProbability = entry1.getValue() * entry2.getValue();
                 if (withSolution) {
-                    //U(K=17) = 0.73 * 0.04 = 0,0292
-                    System.out.println("U(K=" + newKey + ") = " + entry1.getValue() + " * " + entry2.getValue() + " = " + newProbability);
+                    sb.append("U(K=").append(newKey).append(") = ").append(entry1.getValue()).append(" * ").append(entry2.getValue()).append(" = ").append(newProbability);
+                    System.out.println(sb.toString());
                 }
                 if (!resultMap.containsKey(newKey)) {
                     resultMap.put(newKey, newProbability);
@@ -31,6 +33,7 @@ public class Service {
                 }
             }
         }
+        if (withSolution) System.out.println();
         return new Service(resultMap);
     }
     public static Service combineServicesByFunctionAnd (Service[] serviceArray) {
